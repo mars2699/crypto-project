@@ -1,3 +1,13 @@
 # crypto-project
 
-Although we have physical currency, cryptocurrency has emerged to take the place of physical currency virtually backed by blockchain and data collection.  Cryptocurrency being a new type of market still has lots of unknowns to predict and analyze current with future pricing. This new form of currency has proven to be tough to predict and analyze future prices unlike stocks where they linearly grow in price. However, cryptocurrency behaves similarly yet differently to stocks which allows the use of linear regression models to make predictions about its prices. Because, cryptocurrency is volatile, meaning it fluctuates drastically in price on a daily basis. This paper will discuss how to use different types of linear regression models to calculate the volatility of a given cryptocurrency and its prices using high performance computing to accurately predict its prices which in turn affects the stock market.
+The goal of this project is to predict cryptocurrency prices using
+linear regression and parallelization techniques.
+
+We will be first writing volatility equations for both Bitcoin and Dogecoin.
+We will be using data from Reddit, Twitter, S&P Index, and Google search terms
+as predictors.
+
+From there, we will have least squares and autoregression models to plug data into.
+Because of the size of the data sets, we will parallelize the process.
+
+
