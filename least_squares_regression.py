@@ -2,21 +2,22 @@
 """
 Created on Mon Oct 25 17:20:22 2021
 
-@author: 
+@author: Min Sun Kim
 """
 
+# This code was written by Min Sun Kim, a student at East Central University
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import pandas_datareader as web
 import datetime as dt
-#import seaborn as sns
 
 from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 from tensorflow.keras.models import Sequential
 
-data = pd.read_csv("Bitcoin_data.csv")
+# Input csv data file. This differs based on coin
+data = pd.read_csv("Dogecoin_data.csv")
 
 data.head()
 
@@ -34,12 +35,13 @@ data['Marketcap'].unique()
 
 data.isnull().sum()
 
-crypto = 'BTC'
+crypto = 'DOGE'
 currency = 'USD'
 
 start = dt.datetime(2015,1,1)
 end = dt.datetime.now()
 
+# Updated data is read from the Yahoo finance website
 data = web.DataReader(f"{crypto}-{currency}", "yahoo", start, end)
 
 data.index = pd.to_datetime(data.index)
@@ -49,10 +51,12 @@ data
 scaler = MinMaxScaler(feature_range=(0,1))
 scaled_data = scaler.fit_transform(data['Close'].values.reshape(-1,1))
 
+# Number of days into the future to predict
 pred_days = 30
 
 x_train, y_train = [], []
 
+# Train the model 
 for x in range(pred_days, len(scaled_data)):
   x_train.append(scaled_data[x-pred_days:x, 0])
   y_train.append(scaled_data[x, 0])
@@ -96,6 +100,7 @@ model_inputs = scaler.fit_transform(model_inputs)
 
 x_test = []
 
+# Test the model
 for x in range(pred_days, len(model_inputs)):
   x_test.append(model_inputs[x-pred_days:x, 0])
 
@@ -105,6 +110,7 @@ x_test = np.reshape(x_test, (x_test.shape[0], x_test.shape[1], 1))
 prediction_prices = model.predict(x_test)
 prediction_prices = scaler.inverse_transform(prediction_prices)
 
+# Plot the data
 plt.plot(actual_prices, color='red', label='Actual Prices')
 plt.plot(prediction_prices, color='green', label='Prediction Prices')
 plt.title(f"{crypto}-{currency} Price Predictor")
